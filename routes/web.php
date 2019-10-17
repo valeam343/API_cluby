@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::resource('actividades', 'actividadController');
 Route::get('categoria/{idCat}', 'actividadController@actividadFkCategoria');
+
+Route::get('filtrar/{variable}/{id}', 'actividadController@filtroHome');

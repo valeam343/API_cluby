@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Actividad;
+use Illuminate\Support\Facades\DB;
 
 class actividadController extends Controller
 {
@@ -59,12 +60,54 @@ class actividadController extends Controller
     {
         //
 
-        return Actividad::where('idActividad', [$id])->get();
+        //return Actividad::where('pkActividad', [$id])->get();
+
+        $aBusquedad = DB::table('actividades')->where('idActividad', 'LIKE', '%'. $id. '%');
+        return response()->json(json_encode($aBusquedad));
+
+     
     }
 
-    public function actividadFkCategoria($idCat){
-        return Actividad::where('idCategoria',[$idCat])->get();
+
+    public function filtroHome($variable, $id){
+           $query =  DB::table('actividades')
+           ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
+           ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
+           ->select('actividades.*');
+           switch ($variable) {
+               case 'first':
+                   
+                   $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')->get();
+
+                   if(empty($act)){
+                    $cat = $query->where('categorias.nomCategoria', 'LIKE', '%'.$id.'%');
+                    return response()->json($cat);
+
+                   }
+                   return response()->json($act);
+                   break;
+
+               case 'second':
+                   
+                   $loc = $query->where('actividades.ciudad', 'LIKE', '%'.$id.'%')
+                   ->orWhere('actividades.estado', 'LIKE', '%'.$id.'%')->get();
+                   break;
+               
+               default:
+                   # code...
+                   break;
+           
+           
+        }
     }
+
+ public function actividadFkCategoria($idCat){
+    return Actividad::where('idCategoria',[$idCat])->get();
+}
+
+public function filtrar($sParam){
+
+}
 
     /**
      * Show the form for editing the specified resource.
