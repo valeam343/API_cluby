@@ -102,7 +102,7 @@ class actividadController extends Controller
     }
 
  public function actividadFkCategoria($idCat){
-    return Actividad::where('idCategoria',[$idCat])->get();
+    return Actividad::where('pkCategoria',[$idCat])->get();
 }
 
 public function filtrar($sParam){
