@@ -91,6 +91,7 @@ class actividadController extends Controller
                    
                    $loc = $query->where('actividades.ciudad', 'LIKE', '%'.$id.'%')
                    ->orWhere('actividades.estado', 'LIKE', '%'.$id.'%')->get();
+                   return response()->json($loc);
                    break;
                
                default:
