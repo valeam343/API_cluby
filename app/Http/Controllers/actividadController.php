@@ -63,7 +63,7 @@ class actividadController extends Controller
         //return Actividad::where('pkActividad', [$id])->get();
 
         $aBusquedad = DB::table('actividades')->where('pkActividad', 'LIKE', '%'. $id. '%')->get();
-        return response()->json(json_encode($aBusquedad));
+        return response()->json($aBusquedad);
 
      
     }
