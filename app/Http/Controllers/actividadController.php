@@ -76,7 +76,6 @@ class actividadController extends Controller
            ->select('actividades.*');
            switch ($variable) {
                case 'first':
-                   
                    $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')->get();
 
                    if(empty($act)){

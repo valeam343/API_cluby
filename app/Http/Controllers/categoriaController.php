@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categoria;
+use App\Actividad;
+use Illuminate\Support\Facades\DB;
 
 class categoriaController extends Controller
 {
@@ -16,6 +18,20 @@ class categoriaController extends Controller
     {
         //
         return Categoria::all();
+    }
+
+    public function actividadesPorCategoria($id){
+        try {
+            $query =  DB::table('actividades')
+                       ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
+                       ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
+                       ->select('actividades.*')->where('categorias.pkCategoria', '=', $id)->get();
+
+                       return response()->json($query);
+
+        } catch (Exception $e) {
+            echo "Exception: ".$e->getMessage();
+        }
     }
 
     /**
