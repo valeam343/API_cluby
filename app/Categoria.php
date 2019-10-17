@@ -8,5 +8,5 @@ class Categoria extends Model
 {
     //
     protected $table = 'categorias';
-    protected $fillable = ['nombre', 'imagen','created_at','updated_at'];
+    //protected $fillable = ['nombre', 'imagen','created_at','updated_at'];
 }
