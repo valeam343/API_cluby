@@ -78,7 +78,7 @@ class actividadController extends Controller
                case 'first':
                    $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')->get();
 
-                   if(empty($act)){
+                   if(($act)->isEmpty()){
                     $cat = $query->where('categorias.nomCategoria', 'LIKE', '%'.$id.'%');
                     return response()->json($cat);
 
