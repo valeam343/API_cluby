@@ -23,3 +23,4 @@ Route::get('categoria/{idCat}', 'actividadController@actividadFkCategoria');
 Route::resource('categorias', 'categoriaController');
 Route::get('filtrar/{variable}/{id}', 'actividadController@filtroHome');
 Route::get('categ/{id}', 'categoriaController@actividadesPorCategoria');
+Route::get('gruposPorActividad/{id}', 'actividadController@getGruposPorActividad');
