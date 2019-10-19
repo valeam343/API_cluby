@@ -68,6 +68,18 @@ class actividadController extends Controller
      
     }
 
+    public function getGruposPorActividad($id){
+        try {
+            $aGrupos = DB::table('actividades')
+            ->join('actividadesgrupos', 'actividades.pkActividad', '=', 'actividadesgrupos.idActividad')
+            ->where('actividades.pkActividad', '=', $id);
+
+            return response()->json($aGrupos);
+        } catch (Exception $e) {
+            echo "Exception ".$e->getMessage();
+        }
+    }
+
 
     public function filtroHome($variable, $id){
            $query =  DB::table('actividades')
