@@ -72,6 +72,7 @@ class actividadController extends Controller
         try {
             $aGrupos = DB::table('actividades')
             ->join('actividadesgrupos', 'actividades.pkActividad', '=', 'actividadesgrupos.idActividad')
+            ->select('actividadesgrupos.*')
             ->where('actividades.pkActividad', '=', $id)->get();
 
             return response()->json($aGrupos);
