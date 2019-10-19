@@ -72,7 +72,7 @@ class actividadController extends Controller
         try {
             $aGrupos = DB::table('actividades')
             ->join('actividadesgrupos', 'actividades.pkActividad', '=', 'actividadesgrupos.idActividad')
-            ->where('actividades.pkActividad', '=', $id);
+            ->where('actividades.pkActividad', '=', $id)->get();
 
             return response()->json($aGrupos);
         } catch (Exception $e) {
