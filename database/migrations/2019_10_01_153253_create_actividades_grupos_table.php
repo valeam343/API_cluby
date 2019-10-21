@@ -16,8 +16,8 @@ class CreateActividadesGruposTable extends Migration
         Schema::create('actividadesGrupos', function (Blueprint $table) {
             $table->bigIncrements('pkActividadesGrupos');
             $table->unsignedBigInteger('idActividad');
-            $table->unsignedBigInteger('idGruposHorarios');
-            $table->unsignedBigInteger('idProveedoresSucursales');
+            $table->unsignedBigInteger('idGruposHorario');
+            $table->unsignedBigInteger('idProveedoresSucursal');
             $table->string('capActividadesGrupos');
             $table->smallInteger('edadMinimaActividadesGrupos');
             $table->smallInteger('edadMaximaActividadesGrupos');
@@ -33,8 +33,8 @@ class CreateActividadesGruposTable extends Migration
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
             $table->foreign('idActividad')->references('pkActividad')->on('actividades');
-            $table->foreign('idGruposHorarios')->references('pkActividadesGruposHprarios')->on('actividadesGruposHorarios');
-            $table->foreign('idProveedoresSucursales')->references('pkProveedoresSucursales')->on('proveedoresSucursales');
+            $table->foreign('idGruposHorario')->references('pkActividadesGruposHprarios')->on('actividadesGruposHorarios');
+            $table->foreign('idProveedoresSucursal')->references('pkProveedorSucursal')->on('proveedoresSucursales');
         });
     }
 
