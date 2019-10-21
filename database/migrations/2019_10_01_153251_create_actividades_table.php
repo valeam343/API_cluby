@@ -29,7 +29,7 @@ class CreateActividadesTable extends Migration
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
-            $table->foreign('idTipoActividad')->references('pkActividadesTipo')->on('actividadesTipo');
+            $table->foreign('idTipoActividad')->references('pkActividadesTipo')->on('actividadesTipos');
             $table->foreign('idProveedor')->references('pkProveedor')->on('proveedores');
             
         });
