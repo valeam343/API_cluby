@@ -15,7 +15,7 @@ class CreateProveedoresSucursalesTable extends Migration
     {
         Schema::create('proveedoresSucursales', function (Blueprint $table) {
             $table->bigIncrements('pkProveedorSucursal');
-            $table->unsignedBigInteger('idActividadGrupos');
+            $table->unsignedBigInteger('idProveedores');
             $table->string('nomProveedorSucursal');
             $table->string('calleProveedorSucursal');
             $table->string('nextProveedorSucursal');
@@ -33,7 +33,7 @@ class CreateProveedoresSucursalesTable extends Migration
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
-            $table->foreign('idActividadGrupos')->references('pkActividadesGrupos')->on('actividadesGrupos');
+            $table->foreign('idProveedores')->references('pkProveedor')->on('proveedores');
         });
     }
 

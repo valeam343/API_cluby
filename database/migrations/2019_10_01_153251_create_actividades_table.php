@@ -14,7 +14,10 @@ class CreateActividadesTable extends Migration
     public function up()
     {
         Schema::create('actividades', function (Blueprint $table) {
+
             $table->bigIncrements('pkActividad');
+            $table->unsignedBigInteger('idTipoActividad');
+            $table->unsignedBigInteger('idProveedor');
             $table->string('nomActividad');
             $table->string('desActividad');
             $table->smallInteger('edadMinimaActividad');
@@ -26,9 +29,11 @@ class CreateActividadesTable extends Migration
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
+            $table->foreign('idTipoActividad')->references('pkActividadesTipo')->on('actividadesTipo');
+            $table->foreign('idProveedor')->references('pkProveedor')->on('proveedores');
+            
         });
     }
-
     /**
      * Reverse the migrations.
      *

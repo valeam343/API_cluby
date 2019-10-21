@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -15,9 +16,6 @@ class CreateProveedoresTable extends Migration
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->bigIncrements('pkProveedor');
-            $table->unsignedBigInteger('idProveedoresSucursal');
-            $table->unsignedBigInteger('idProveedoresSuscripcion');
-            $table->unsignedBigInteger('idActividad');
             $table->string('nomProveedor');
             $table->string('logoProveedor');
             $table->string('aliasProveedor');
@@ -36,9 +34,6 @@ class CreateProveedoresTable extends Migration
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
-            $table->foreign('idProveedoresSucursal')->references('pkProveedorSucursal')->on('proveedoresSucursales');
-            $table->foreign('idProveedoresSuscripcion')->references('pkProveedorSuscripcion')->on('proveedoresSuscripciones');
-            $table->foreign('idActividad')->references('pkActividad')->on('actividades');
         });
     }
 

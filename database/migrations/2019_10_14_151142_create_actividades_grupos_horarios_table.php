@@ -15,7 +15,6 @@ class CreateActividadesGruposHorariosTable extends Migration
     {
         Schema::create('actividadesGruposHorarios', function (Blueprint $table) {
             $table->bigIncrements('pkActividadesGruposHprarios');
-            $table->unsignedBigInteger('idActividadesGrupos');
             $table->string('lunes');
             $table->string('martes');
             $table->string('miercoles');
@@ -27,7 +26,6 @@ class CreateActividadesGruposHorariosTable extends Migration
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
-            $table->foreign('idActividadesGrupos')->references('pkActividadesGrupos')->on('actividadesGrupos');
         });
     }
 

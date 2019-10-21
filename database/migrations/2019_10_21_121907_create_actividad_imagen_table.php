@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateActividadesTiposTable extends Migration
+class CreateActividadImagenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateActividadesTiposTable extends Migration
      */
     public function up()
     {
-        Schema::create('actividadesTipos', function (Blueprint $table) {
-            $table->bigIncrements('pkActividadesTipo');
+        Schema::create('actividadImagen', function (Blueprint $table) {
+            $table->bigIncrements('pkActividadImagen');
             $table->unsignedBigInteger('idActividad');
-            $table->string('nomActividadesTipo');
-            $table->string('creadoPor');
-            $table->string('editadoPor');
+            $table->string('rutaImagen');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
             $table->foreign('idActividad')->references('pkActividad')->on('actividades');
@@ -32,6 +30,6 @@ class CreateActividadesTiposTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actividadesTipos');
+        Schema::dropIfExists('actividadImagen');
     }
 }
