@@ -17,9 +17,11 @@ class actividadController extends Controller
     {
         //
         //return Actividad::all();
-        return DB::table('actividades as a')->leftjoin('actividadimagen as am', 'a.pkActividad', '=', 'am.idActividad')->select('a.*', 'am.rutaImagen')
+        $actividades = DB::table('actividades as a')->leftjoin('actividadimagen as am', 'a.pkActividad', '=', 'am.idActividad')->select('a.*', 'am.rutaImagen')
         ->groupBy('am.idActividad')
         ->having()->min('ai.fechaCreado')->get();
+
+        return response()->json($actividades);
 
     }
     
