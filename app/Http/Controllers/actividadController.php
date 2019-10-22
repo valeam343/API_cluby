@@ -17,12 +17,14 @@ class actividadController extends Controller
     {
         //
         //return Actividad::all();
-        $actividades = DB::table('actividades as a')->leftjoin('actividadimagen as am', 'a.pkActividad', '=', 'am.idActividad')->select('a.*', 'am.rutaImagen')
-        ->groupBy('am.idActividad')
-        ->having()->min('ai.fechaCreado')->get();
+         $actividades = DB::table('actividades as a')
+             ->leftJoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
+             ->groupBy('ai.idActividad')
+             ->havingRaw('min(ai.fechaCreado)')
+             ->get();
 
         return response()->json($actividades);
-
+        
     }
     
     /**
@@ -68,8 +70,13 @@ class actividadController extends Controller
 
         //return Actividad::where('pkActividad', [$id])->get();
 
-        $aBusquedad = DB::table('actividades')->where('nomActividad', 'LIKE', '%'. $id. '%')->get();
-        return response()->json($aBusquedad);
+        $actividad = DB::table('actividades as a')
+             ->leftJoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
+             ->where('a.pkActividad', '=', $id)
+             ->groupBy('ai.idActividad')
+             ->havingRaw('min(ai.fechaCreado)')->
+             get();
+        return response()->json($actividad);
 
 
     }
