@@ -8,5 +8,5 @@ class Actividad extends Model
 {
     
     protected $table = 'actividades';
-    protected $fillable = ['idCategoria','nombre', 'descripcion', 'imagen', 'city', 'lat', 'long', 'telefono' ];
+    //protected $fillable = ['idCategoria','nombre', 'descripcion', 'imagen', 'city', 'lat', 'long', 'telefono' ];
 }

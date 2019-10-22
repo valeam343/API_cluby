@@ -16,7 +16,11 @@ class actividadController extends Controller
     public function index()
     {
         //
-        return Actividad::all();
+        //return Actividad::all();
+        return DB::table('actividades as a')->leftjoin('actividadimagen as am', 'a.pkActividad', '=', 'am.idActividad')->select('a.*', 'am.rutaImagen')
+        ->groupBy('am.idActividad')
+        ->having()->min('ai.fechaCreado')->get();
+
     }
     
     /**
@@ -62,18 +66,16 @@ class actividadController extends Controller
 
         //return Actividad::where('pkActividad', [$id])->get();
 
-        $aBusquedad = DB::table('actividades')->where('pkActividad', 'LIKE', '%'. $id. '%')->get();
+        $aBusquedad = DB::table('actividades')->where('nomActividad', 'LIKE', '%'. $id. '%')->get();
         return response()->json($aBusquedad);
 
-     
+
     }
 
     public function getGruposPorActividad($id){
         try {
-            $aGrupos = DB::table('actividades')
-            ->join('actividadesgrupos', 'actividades.pkActividad', '=', 'actividadesgrupos.idActividad')
-            ->select('actividadesgrupos.*')
-            ->where('actividades.pkActividad', '=', $id)->get();
+            $aGrupos = DB::table('actividadesgrupos')
+            ->where('idActividad', '=', $id)->get();
 
             return response()->json($aGrupos);
         } catch (Exception $e) {
@@ -83,39 +85,42 @@ class actividadController extends Controller
 
 
     public function filtroHome($variable, $id){
-           $query =  DB::table('actividades')
-           ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
-           ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
-           ->select('actividades.*');
-           switch ($variable) {
-               case 'first':
-                   $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')->get();
+     $query =  DB::table('actividades')
+     ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
+     ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
+     ->select('actividades.*');
+     switch ($variable) {
+         case 'first':
+         $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')->get();
 
-                   if(($act)->isEmpty()){
-                    $cat = $query->where('categorias.nomCategoria', 'LIKE', '%'.$id.'%');
-                    return response()->json($cat);
+         if(($act)->isEmpty()){
+            $cat = $query->where('categorias.nomCategoria', 'LIKE', '%'.$id.'%');
+            return response()->json($cat);
 
-                   }
-                   return response()->json($act);
-                   break;
-
-               case 'second':
-                   
-                   $loc = $query->where('actividades.ciudad', 'LIKE', '%'.$id.'%')
-                   ->orWhere('actividades.estado', 'LIKE', '%'.$id.'%')->get();
-                   return response()->json($loc);
-                   break;
-               
-               default:
-                   # code...
-                   break;
-           
-           
         }
-    }
+        return response()->json($act);
+        break;
 
- public function actividadFkCategoria($idCat){
-    return Actividad::where('pkCategoria',[$idCat])->get();
+        case 'second':
+        $loc = DB::table('actividades as a')
+        ->leftjoin('proveedores as p', 'a.idProveedor' , '=', 'p.pkProveedor')->select('a.*', 'p.*')->where('p.estadoProveedor', 'LIKE', '%'.$id.'%')->orWhere('p.munProveedor', 'LIKE', '%'.$id.'%')->get();
+        /*
+        $query->where('actividades.ciudad', 'LIKE', '%'.$id.'%')
+        ->orWhere('actividades.estado', 'LIKE', '%'.$id.'%')->get();
+        */
+        return response()->json($loc);
+        break;
+
+        default:
+                   # code...
+        break;
+
+
+    }
+}
+
+public function actividadFkCategoria($idCat){
+    //return Actividad::where('pkCategoria',[$idCat])->get();
 }
 
 public function filtrar($sParam){
