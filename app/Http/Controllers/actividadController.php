@@ -19,6 +19,9 @@ class actividadController extends Controller
         //return Actividad::all();
          $actividades = DB::table('actividades as a')
              ->leftJoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
+             ->leftJoin('proveedores as p', 'a.idProveedor', '=', 'p.pkProveedor')
+             ->leftJoin('proveedoressucursales as ps', 'p.pkProveedor', '=', 'ps.idProveedores')
+             ->select('a.*', 'ai.rutaimagen', 'p.*', 'ps.latitud', 'ps.longitud')
              ->groupBy('ai.idActividad')
              ->havingRaw('min(ai.fechaCreado)')
              ->get();
@@ -72,7 +75,10 @@ class actividadController extends Controller
 
         $actividad = DB::table('actividades as a')
              ->leftJoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
-             ->where('a.pkActividad', '=', $id)
+             ->leftJoin('proveedores as p', 'a.idProveedor', '=', 'p.pkProveedor')
+             ->leftJoin('proveedoressucursales as ps', 'p.pkProveedor', '=', 'ps.idProveedores')
+             ->select('a.*', 'ai.rutaimagen', 'p.*', 'ps.latitud', 'ps.longitud')
+             ->where('a.nomActividad', '=', $id)
              ->groupBy('ai.idActividad')
              ->havingRaw('min(ai.fechaCreado)')->
              get();

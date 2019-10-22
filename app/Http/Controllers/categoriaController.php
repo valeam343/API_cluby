@@ -64,7 +64,7 @@ class categoriaController extends Controller
      */
     public function show($id)
     {
-        return Categoria::where('pkCategoria', [$id])->get();
+        return Categoria::where('nomCategoria', [$id])->get();
     }
 
     /**
