@@ -26,7 +26,7 @@ class categoriaController extends Controller
                        ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
                        ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
                        ->leftjoin('proveedores as p', 'actividades.idProveedor' , '=', 'p.pkProveedor')
-                       ->select('actividades.*', 'categorias.*', 'p.*')->where('categorias.pkCategoria', '=', $id)->distinct()->get();
+                       ->select('actividades.*', 'categorias.*', 'p.*')->where('categorias.nomCategoria', '=', $id)->distinct()->get();
 
                        return response()->json($query);
 
