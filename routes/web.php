@@ -25,3 +25,4 @@ Route::get('busqueda/{actividad?}/{estado?}', 'categoriaController@busquedaPorAc
 Route::get('filtrar/{variable}/{id}', 'actividadController@filtroHome');
 Route::get('categ/{id}', 'categoriaController@actividadesPorCategoria');
 Route::get('gruposPorActividad/{id}', 'actividadController@getGruposPorActividad');
+Route::get('imagenes/{id}', 'actividadController@actividadImagenes');

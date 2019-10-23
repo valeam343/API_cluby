@@ -72,7 +72,7 @@ class actividadController extends Controller
         //
 
         //return Actividad::where('pkActividad', [$id])->get();
-
+/*
         $actividad = DB::table('actividades as a')
              ->leftJoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
              ->leftJoin('proveedores as p', 'a.idProveedor', '=', 'p.pkProveedor')
@@ -81,11 +81,34 @@ class actividadController extends Controller
              ->where('a.nomActividad', '=', $id)
              ->groupBy('ai.idActividad')
              ->havingRaw('min(ai.fechaCreado)')->
-             get();
+             get();*/
+             
+        $actividad = DB::table('actividades as a')
+        ->leftJoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
+        ->leftJoin('proveedores as p', 'a.idProveedor', '=', 'p.pkProveedor')
+        ->leftjoin('ciudades as c', 'p.idCiudad', '=', 'c.pkCiudad')
+        ->leftJoin('proveedoressucursales as ps', 'p.pkProveedor', '=', 'ps.idProveedores')
+        ->select('a.*', 'ai.rutaimagen', 'c.nomCiudad','p.*', 'ps.latitud', 'ps.longitud')
+        ->where('a.nomActividad', '=', $id)
+        ->groupBy('ai.idActividad')
+        ->havingRaw('min(ai.fechaCreado)')->
+        get();
         return response()->json($actividad);
 
 
     }
+    
+    public function actividadImagenes($var){
+    try {
+        $imagenes = DB::table('actividades as a')->
+        rightjoin('actividadimagen as ai', 'a.pkActividad', '=', 'ai.idActividad')
+        ->select('ai.rutaimagen')
+        ->where('a.nomActividad', '=', $var)->get();
+        return response()->json($imagenes);
+    } catch (Exception $e) {
+        
+    }
+}
 
     public function getGruposPorActividad($id){
         try {
@@ -101,15 +124,20 @@ class actividadController extends Controller
 
     public function filtroHome($variable, $id){
      $query =  DB::table('actividades')
+     ->leftJoin('actividadimagen as ai', 'actividades.pkActividad', '=', 'ai.idActividad')
      ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
      ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
-     ->select('actividades.*');
+     ->select('actividades.*', 'ai.rutaimagen');
      switch ($variable) {
          case 'first':
-         $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')->get();
+         $act = $query->where('actividades.nomActividad', 'LIKE', '%'.$id.'%')
+         ->groupBy('ai.idActividad')
+         ->havingRaw('min(ai.fechaCreado)')->get();
 
          if(($act)->isEmpty()){
-            $cat = $query->where('categorias.nomCategoria', 'LIKE', '%'.$id.'%');
+            $cat = $query->where('categorias.nomCategoria', 'LIKE', '%'.$id.'%')
+            ->groupBy('ai.idActividad')
+             ->havingRaw('min(ai.fechaCreado)')->get();
             return response()->json($cat);
 
         }
