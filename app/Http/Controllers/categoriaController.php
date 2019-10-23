@@ -39,6 +39,40 @@ class categoriaController extends Controller
         }
     }
 
+   public function busquedaPorActividadEstado(Request $request){
+           try{
+               $actividad = $request->actividad;
+               $estado = $request->estado;
+                $query =  DB::table('actividades')
+                    ->leftJoin('actividadimagen as ai', 'actividades.pkActividad', '=', 'ai.idActividad')
+                    ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
+                    ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
+                    ->leftjoin('proveedores as p', 'actividades.idProveedor' , '=', 'p.pkProveedor')
+                    ->leftJoin('proveedoressucursales as ps', 'p.pkProveedor', '=', 'ps.idProveedores')
+                    ->select('actividades.*', 'categorias.*', 'p.*', 'ps.latitud', 'ps.longitud', 'ai.rutaimagen');
+               if(!empty($actividad) && !empty($estado)){
+                   $both = $query->where('actividades.nomActividad', '=', $actividad)
+                   ->where('p.estadoProveedor', '=', $estado)
+                   ->groupBy('ai.idActividad')
+                   ->havingRaw('min(ai.fechaCreado)')->get();
+                   return response()->json($both);
+               }else if(!empty($actividad) || !empty($estado)){
+                   if(empty($actividad)){
+                       $estados = $query->where('p.estadoProveedor','=',$estado)
+                       ->groupBy('ai.idActividad')
+                       ->havingRaw('min(ai.fechaCreado)')->get();
+                       return response()->json($estados);
+                   }else{
+                       $actividades = $query->where('actividades.nomActividad', '=', $actividad)
+                       ->groupBy('ai.idActividad')
+                       ->havingRaw('min(ai.fechaCreado)')->get();
+                       return response()->json($actividades);
+                   }
+               }
+           }catch(Exception $e){
+               echo "Exception: ".$e->getMessage();
+           }
+       }
     /**
      * Show the form for creating a new resource.
      *
