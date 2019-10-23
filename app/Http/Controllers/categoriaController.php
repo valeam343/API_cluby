@@ -23,11 +23,14 @@ class categoriaController extends Controller
     public function actividadesPorCategoria($id){
         try {
             $query =  DB::table('actividades')
+                       ->leftJoin('actividadimagen as ai', 'actividades.pkActividad', '=', 'ai.idActividad')
                        ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
                        ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
                        ->leftjoin('proveedores as p', 'actividades.idProveedor' , '=', 'p.pkProveedor')
                        ->leftJoin('proveedoressucursales as ps', 'p.pkProveedor', '=', 'ps.idProveedores')
-                       ->select('actividades.*', 'categorias.*', 'p.*', 'ps.latitud', 'ps.longitud')->where('categorias.pkCategoria', '=', $id)->distinct()->get();
+                       ->select('actividades.*', 'categorias.*', 'p.*', 'ps.latitud', 'ps.longitud', 'ai.rutaimagen')->where('categorias.pkCategoria', '=', $id)
+                       ->groupBy('ai.idActividad')
+                       ->havingRaw('min(ai.fechaCreado)')->get();
 
                        return response()->json($query);
 
