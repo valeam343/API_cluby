@@ -30,6 +30,14 @@ class actividadController extends Controller
         
     }
     
+     public function ciudades(){
+        $actividad = DB::table('actividades as a')
+        ->leftJoin('proveedores as p', 'a.idProveedor', '=', 'p.pkProveedor')
+        ->leftjoin('ciudades as c', 'p.idCiudad', '=', 'c.pkCiudad')
+        ->select('c.nomCiudad')->distinct()->get();
+        return response()->json($actividad);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

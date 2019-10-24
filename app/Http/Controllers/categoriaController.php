@@ -48,17 +48,18 @@ class categoriaController extends Controller
                     ->join('actividadescategorias','actividades.pkActividad', '=', 'actividadescategorias.idActividad')
                     ->join('categorias', 'actividadescategorias.idCategoria', '=', 'categorias.pkCategoria')
                     ->leftjoin('proveedores as p', 'actividades.idProveedor' , '=', 'p.pkProveedor')
+                    ->leftjoin('ciudades as c', 'p.idCiudad', '=', 'c.pkCiudad')
                     ->leftJoin('proveedoressucursales as ps', 'p.pkProveedor', '=', 'ps.idProveedores')
-                    ->select('actividades.*', 'categorias.*', 'p.*', 'ps.latitud', 'ps.longitud', 'ai.rutaimagen');
+                    ->select('actividades.*', 'categorias.*', 'p.*', 'ps.latitud', 'ps.longitud', 'ai.rutaimagen','c.nomCiudad');
                if(!empty($actividad) && !empty($estado)){
                    $both = $query->where('actividades.nomActividad', '=', $actividad)
-                   ->where('p.estadoProveedor', '=', $estado)
+                   ->where('c.nomCiudad', '=', $estado)
                    ->groupBy('ai.idActividad')
                    ->havingRaw('min(ai.fechaCreado)')->get();
                    return response()->json($both);
                }else if(!empty($actividad) || !empty($estado)){
                    if(empty($actividad)){
-                       $estados = $query->where('p.estadoProveedor','=',$estado)
+                       $estados = $query->where('c.nomCiudad','=',$estado)
                        ->groupBy('ai.idActividad')
                        ->havingRaw('min(ai.fechaCreado)')->get();
                        return response()->json($estados);
