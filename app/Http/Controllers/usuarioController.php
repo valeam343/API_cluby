@@ -89,8 +89,9 @@ class usuarioController extends Controller
     }
 
 
-    public function updateUserStatus($id){
+    public function updateUserStatus(Request $request){
         try {
+            $id = $request->id;
             $user = usuario::find($id);
             if(!empty($user)){
                 $user->codigoConfirmacion = null;
