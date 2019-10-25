@@ -27,3 +27,5 @@ Route::get('categ/{id}', 'categoriaController@actividadesPorCategoria');
 Route::get('gruposPorActividad/{id}', 'actividadController@getGruposPorActividad');
 Route::get('imagenes/{id}', 'actividadController@actividadImagenes');
 Route::get('ciudades', 'actividadController@ciudades');
+
+Route::resource('usuario', 'usuarioController');
