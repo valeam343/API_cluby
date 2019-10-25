@@ -30,4 +30,4 @@ Route::get('ciudades', 'actividadController@ciudades');
 
 Route::resource('usuario', 'usuarioController');
 
-Route::post('user', 'usuarioController@updateUserStatus');
+Route::post('user/{id}', 'usuarioController@updateUserStatus');
