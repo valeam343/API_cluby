@@ -89,21 +89,22 @@ class usuarioController extends Controller
     }
 
 
-    public function updateUserStatus(Request $request){
-        try {
-            $id = $request->id;
-            $user = usuario::find($id);
-            if(!empty($user)){
-                $user->codigoConfirmacion = null;
-                $user->correo_verificado = 1;
-                return true;   
-            }else{
-                return false;
-            }
-        } catch (Exception $e) {
-            echo "Exception: ".$e->getMessage();
-        }
-    }
+    public function updateUserStatus($id){
+      try {
+          
+          $user = usuario::find($id);
+          if(!empty($user)){
+              $user->codigoConfirmacion = null;
+              $user->correo_verificado = 1;
+              $user->save();
+              return response()->json('status' => 'true');   
+          }
+              return response()->json('status' => 'false');  
+          
+      } catch (Exception $e) {
+          echo "Exception: ".$e->getMessage();
+      }
+  }
 
     /**
      * Remove the specified resource from storage.
