@@ -61,7 +61,7 @@ class usuarioController extends Controller
             
             return $user;
         } catch (Exception $e) {
-            
+
         }
     }
 
@@ -86,6 +86,22 @@ class usuarioController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+
+    public function updateUserStatus($id){
+        try {
+            $user = usuario::find($id);
+            if(!empty($user)){
+                $user->codigoConfirmacion = null;
+                $user->correo_verificado = 1;
+                return true;   
+            }else{
+                return false;
+            }
+        } catch (Exception $e) {
+            echo "Exception: ".$e->getMessage();
+        }
     }
 
     /**

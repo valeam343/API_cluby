@@ -29,3 +29,5 @@ Route::get('imagenes/{id}', 'actividadController@actividadImagenes');
 Route::get('ciudades', 'actividadController@ciudades');
 
 Route::resource('usuario', 'usuarioController');
+
+Route::post('user', 'usuarioController@updateUserStatus');
