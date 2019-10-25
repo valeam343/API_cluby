@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\usuario;
 
 class usuarioController extends Controller
 {
@@ -35,14 +36,12 @@ class usuarioController extends Controller
     {
         //
         try {
-            $data['codigo'] = str_random(25);
             $user = new usuario;
             $user->nomUsuario = $request->usuario;
             $user->correoUsaurio = $request->correo;
             $user->pwdUsuario = $request->contrasenia;
-            $user->codigoConfirmacion = $data['codigo'];
+            $user->codigoConfirmacion = $request->codigo;
             $user->tipo = 2;
-
             $user->save();
         } catch (Exception $e) {
             echo "Exception: ".$e->getMessage();
@@ -55,9 +54,15 @@ class usuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($code)
     {
-        //
+        try {
+            $user = usuario::where('codigoConfirmacion', $code)->first();
+            
+            return $user;
+        } catch (Exception $e) {
+            
+        }
     }
 
     /**
