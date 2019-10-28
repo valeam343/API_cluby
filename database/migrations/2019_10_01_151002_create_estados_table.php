@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCuidadesTable extends Migration
+class CreateEstadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateCuidadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cuidades', function (Blueprint $table) {
-            $table->bigIncrements('pkCiudad');
-            $table->string('nomCiudad');
+        Schema::create('estados', function (Blueprint $table) {
+            $table->bigIncrements('pkEstado');
+            $table->unsignedBigInteger('idPais');
+            $table->string('nomEstado');
             $table->string('creadoPor');
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
+            $table->foreign('idPais')->references('pkPais')->on('paises');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateCuidadesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cuidades');
+        Schema::dropIfExists('estados');
     }
 }

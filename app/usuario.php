@@ -9,5 +9,5 @@ class usuario extends Model
     //
     protected $primaryKey = 'pkUsuario';
     public $timestamps = false;
-    /*protected $fillable =['nomUsuario', 'correoUsuario','pwdUsuario'];*/
+    protected $fillable =['nomUsuario', 'correoUsuario','codigoConfirmacion','pwdUsuario','tipo'];
 }

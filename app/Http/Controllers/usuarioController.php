@@ -15,6 +15,7 @@ class usuarioController extends Controller
     public function index()
     {
         //
+        return usuario::all();
     }
 
     /**
@@ -38,16 +39,20 @@ class usuarioController extends Controller
         try {
             $user = new usuario;
             $user->nomUsuario = $request->usuario;
-            $user->correoUsaurio = $request->correo;
+            $user->correoUsuario = $request->correo;
             $user->pwdUsuario = $request->contrasenia;
-            $user->codigoConfirmacion = $request->codigo;
+            $user->codigoVerificacion = $request->codigo;
             $user->tipo = 2;
             $user->save();
-        } catch (Exception $e) {
+            
+        }catch (Exception $e) {
             echo "Exception: ".$e->getMessage();
         }
     }
 
+    public function guardar(Request $request){
+
+    }
     /**
      * Display the specified resource.
      *
@@ -97,9 +102,9 @@ class usuarioController extends Controller
               $user->codigoConfirmacion = null;
               $user->correo_verificado = 1;
               $user->save();
-              return response()->json('status' => 'true');   
+              return response()->json(['status' => 'true']);   
           }
-              return response()->json('status' => 'false');  
+              return response()->json(['status' => 'false']);  
           
       } catch (Exception $e) {
           echo "Exception: ".$e->getMessage();

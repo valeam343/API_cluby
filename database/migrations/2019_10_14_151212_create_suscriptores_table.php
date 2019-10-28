@@ -14,7 +14,7 @@ class CreateSuscriptoresTable extends Migration
     public function up()
     {
         Schema::create('suscriptores', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('pkSuscriptor');
             $table->timestamps();
         });
     }

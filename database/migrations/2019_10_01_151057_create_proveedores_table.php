@@ -16,6 +16,7 @@ class CreateProveedoresTable extends Migration
     {
         Schema::create('proveedores', function (Blueprint $table) {
             $table->bigIncrements('pkProveedor');
+            $table->unsignedBigInteger('idCiudad');
             $table->string('nomProveedor');
             $table->string('logoProveedor');
             $table->string('aliasProveedor');
@@ -34,6 +35,7 @@ class CreateProveedoresTable extends Migration
             $table->string('editadoPor');
             $table->timestamp('fechaCreado')->useCurrent();
             $table->timestamp('fechaEditado')->useCurrent();
+            $table->foreign('idCiudad')->references('pkCiudad')->on('ciudades');
         });
     }
 
